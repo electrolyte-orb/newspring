@@ -27,14 +27,14 @@ export const theme = createTheme({
   components: {
     Button: Button.extend({
       defaultProps: {
-        color: "bright-blue.6",
-        variant: "light",
+        color: "bright-blue.5",
+        variant: "transparent",
       },
     }),
   },
 });
 
-export const resolver: CSSVariablesResolver = (theme) => {
+export const resolver: CSSVariablesResolver = () => {
   return {
     variables: {},
     light: {},

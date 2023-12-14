@@ -2,7 +2,7 @@ import "@mantine/core/styles.layer.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Provider as JotaiProvider } from "jotai";
 import { theme, resolver } from "@/theme";
-import Appshell from "./Appshell";
+import AppshellServer from "./AppshellServer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -27,7 +27,8 @@ export default function RootLayout({
             theme={theme}
             defaultColorScheme="dark"
           >
-            <Appshell>{children}</Appshell>
+            {/*@ts-ignore*/}
+            <AppshellServer>{children}</AppshellServer>
           </MantineProvider>
         </JotaiProvider>
       </body>

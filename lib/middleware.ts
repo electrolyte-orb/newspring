@@ -14,7 +14,7 @@ export function createClient(request: NextRequest) {
     {
       cookies: {
         get(name: string) {
-          return request.cookies.get(name)?.name;
+          return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({
@@ -45,6 +45,5 @@ export function createClient(request: NextRequest) {
       },
     }
   );
-
   return { supabase, response };
 }

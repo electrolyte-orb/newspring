@@ -20,7 +20,7 @@ export default function SignIn() {
   }
 
   return (
-    <Flex gap="sm">
+    <Flex gap={0}>
       <Button onClick={() => handleLogin("google")}>Google</Button>
       <Button onClick={() => handleLogin("azure")}>Microsoft</Button>
     </Flex>

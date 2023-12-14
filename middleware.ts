@@ -1,21 +1,27 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { createClient } from "@/lib/middleware";
+import { ServerRuntime } from "next";
+
+export const config = {
+  matcher: "/app/:path*",
+};
+export const runtime: ServerRuntime = "experimental-edge";
 
 export async function middleware(request: NextRequest) {
-  try {
-    const { supabase, response } = createClient(request);
-    const { error } = await supabase.auth.getSession();
+  const { supabase, response } = createClient(request);
+  const sessionRes = await supabase.auth.getSession();
+  console.log(request.url);
+  const loginUrl = new URL("/login", request.url);
 
-    if (error) console.error("MIDDLEWARE ERROR WITH GET_SESSION ", error);
+  if (sessionRes.error || sessionRes.data.session === null) {
+    if (sessionRes.error) console.error("MIDDLEWARE ERROR ", sessionRes.error);
 
-    return response;
-  } catch (e) {
-    console.error("MIDDLEWARE ERROR ", e);
-
-    return NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
+    loginUrl.searchParams.set(
+      "error",
+      sessionRes.error ? sessionRes.error.name : "LoggedOut"
+    );
+    return NextResponse.redirect(loginUrl);
   }
+
+  return response;
 }

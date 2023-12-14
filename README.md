@@ -8,12 +8,12 @@ Supabase-based messaging app, built upon Next.js
 /             --> (index; no-fetch)                  SSG
 
 -- Unauthenticated only --
-/login        --> (login; redirect if auth)          SSR
+/login?err=x  --> (login; redirect if auth; error)   SSR
 
 --  Authenticated only  --
-/app          --> (middleware; checks user session)  MDW
+/app          --> (middleware; checks user session)  MDW    done
 
-/app          --> (all contacts; fetch)              SSR
-/app/:userId  --> (chat; websockets; fetch)          SSR
-/app/settings --> (settings; fetch)                  SSR
+/app          --> (all contacts; fetch)              SSR    done
+/app/:userId  --> (chat; websockets; fetch)          SSR    done
+/app/settings --> (settings; fetch)                  SSR    done
 ```
