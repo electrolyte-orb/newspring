@@ -13,7 +13,7 @@ export default function SignOut() {
     } catch (err) {
       console.error(err);
     }
-    router.refresh();
+    router.push("/");
   }
 
   return (

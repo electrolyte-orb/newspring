@@ -9,6 +9,7 @@ import { useHydrateAtoms } from "jotai/utils";
 import { getUserAtom, setUserAtom, userAtom } from "./store";
 import { createClient } from "@/lib/client";
 import { User } from "@supabase/supabase-js";
+import Image from "next/image";
 
 const footerLinks = [
   { label: "Account", href: "/app/settings" },
@@ -59,7 +60,16 @@ export default function Appshell({
             >
               Newspring
             </Anchor>
-            <Text>{user === null ? "logged out" : "logged in"}</Text>
+            {user !== null && (
+              <Link href="/app/settings" className={classes.imageLink}>
+                <Image
+                  alt="user-profile-pic"
+                  width={32}
+                  height={32}
+                  src={user.user_metadata.avatar_url}
+                />
+              </Link>
+            )}
           </Flex>
         </Container>
       </AppShell.Header>

@@ -28,7 +28,7 @@ export const theme = createTheme({
     Button: Button.extend({
       defaultProps: {
         color: "bright-blue.5",
-        variant: "transparent",
+        // variant: "transparent",
       },
     }),
   },

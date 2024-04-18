@@ -5,12 +5,12 @@ import { ServerRuntime } from "next";
 export const config = {
   matcher: "/app/:path*",
 };
+
 export const runtime: ServerRuntime = "experimental-edge";
 
 export async function middleware(request: NextRequest) {
   const { supabase, response } = createClient(request);
   const sessionRes = await supabase.auth.getSession();
-  console.log(request.url);
   const loginUrl = new URL("/login", request.url);
 
   if (sessionRes.error || sessionRes.data.session === null) {

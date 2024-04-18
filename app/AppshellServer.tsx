@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Appshell from "./Appshell";
-import { getCachedSession } from "@/lib/get-session";
+import { getSession } from "@/lib/get-session";
 import { cookies } from "next/headers";
 
 export default async function AppshellServer({
@@ -10,14 +10,12 @@ export default async function AppshellServer({
 }) {
   const cookieStore = cookies();
   const {
-    data: { session: cachedSession },
-  } = await getCachedSession(cookieStore);
+    data: { session },
+  } = await getSession(cookieStore);
 
   return (
     <>
-      <Appshell userFromServer={cachedSession?.user ?? null}>
-        {children}
-      </Appshell>
+      <Appshell userFromServer={session?.user ?? null}>{children}</Appshell>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { getCachedSession } from "@/lib/get-session";
+import { getSession } from "@/lib/get-session";
 import SignIn from "./sign-in";
 import { Alert, Container } from "@mantine/core";
 import { cookies } from "next/headers";
@@ -12,16 +12,15 @@ export default async function Login({
   searchParams: { error?: string };
 }) {
   const redirectError = searchParams.error;
-
   const cookieStore = cookies();
-  const cachedSession = await getCachedSession(cookieStore);
+  const session = await getSession(cookieStore);
 
-  if (cachedSession.data.session !== null && !cachedSession.error) {
+  if (session.data.session !== null && session.error === null) {
     return redirect("/app");
   }
 
   return (
-    <Container size="sm" py="lg">
+    <Container>
       {redirectError &&
         (redirectError === "LoggedOut" ? (
           <Alert variant="light" color="yellow" title="You logged out">
