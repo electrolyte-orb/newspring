@@ -1,6 +1,5 @@
 import { getSession } from "@/lib/get-session";
 import SignIn from "./sign-in";
-import { Alert, Container } from "@mantine/core";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -20,18 +19,9 @@ export default async function Login({
   }
 
   return (
-    <Container>
-      {redirectError &&
-        (redirectError === "LoggedOut" ? (
-          <Alert variant="light" color="yellow" title="You logged out">
-            You logged out of your account.
-          </Alert>
-        ) : (
-          <Alert variant="light" color="red" title="Authentication error">
-            You need to login once again, error: {redirectError}
-          </Alert>
-        ))}
+    <main>
+      {redirectError && (redirectError === "LoggedOut" ? <div>Logged Out</div> : <div>Error Occurred</div>)}
       <SignIn />
-    </Container>
+    </main>
   );
 }

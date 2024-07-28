@@ -1,5 +1,4 @@
 "use client";
-import { Button, Flex } from "@mantine/core";
 import { createClient } from "@/lib/client";
 
 export default function SignIn() {
@@ -20,9 +19,9 @@ export default function SignIn() {
   }
 
   return (
-    <Flex gap={0}>
-      <Button onClick={() => handleLogin("google")}>Google</Button>
-      <Button onClick={() => handleLogin("azure")}>Microsoft</Button>
-    </Flex>
+    <div>
+      <button onClick={() => handleLogin("google")}>Google</button>
+      <button onClick={() => handleLogin("azure")}>Microsoft</button>
+    </div>
   );
 }

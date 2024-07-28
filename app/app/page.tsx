@@ -1,19 +1,33 @@
 import { createClient } from "@/lib/server";
-import { Container, Title } from "@mantine/core";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export const revalidate = 0;
 
 export default async function App() {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data, error } = await supabase.from("contact_view").select("*");
+  const { data, error } = await supabase.from("contact_view").select();
 
-  console.log(data, error);
+  if (error != null) {
+    console.error(error);
+    return <div>CANNOT LOAD CONTACTS, SOMETHING WENT WRONG</div>;
+  }
+
+  console.log({ data });
 
   return (
-    <Container>
-      <Title order={1}>This is /app</Title>
-    </Container>
+    <div>
+      <h1>App Console</h1>
+      <ul>
+        {data.map((contact, i) => (
+          <li key={i}>
+            <Link href={`/app/${contact.friendship_id}`}>
+              {contact.name} - <b>{contact.username}</b>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -1,9 +1,41 @@
-import { Container, Title } from "@mantine/core";
+import { createClient } from "@/lib/server";
+import { cookies } from "next/headers";
+import RealtimeMessages from "./realtime-messages";
 
-export default function DynamicApp({ params }: { params: { id: string } }) {
+export const revalidate = 0;
+
+export default async function DynamicApp({ params }: { params: { id: string } }) {
+  const supabase = createClient(cookies());
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError) {
+    console.log(userError);
+    return <div>USER ERROR</div>;
+  }
+
+  const { data, error } = await supabase.from("contact").select("friend(*)").eq("friendship_id", params.id).single();
+
+  // TODO: REMOVE CONSOLE LOG
+  console.log(JSON.stringify(data), { error });
+
+  if (error || data.friend?.id == null) {
+    return <div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>;
+  }
+
+  const { data: serverMessages, error: messageError } = await supabase
+    .from("message")
+    .select()
+    .eq("friendship_id", data.friend.id);
+
+  if (messageError) {
+    return <div>ERROR: CANNOT FETCH MESSAGES</div>;
+  }
+
+  console.log({ serverMessages, messageError });
+
   return (
-    <Container>
-      <Title order={1}>This is dynamic: {params.id}</Title>
-    </Container>
+    <main>
+      <h1>This is dynamic: {params.id}</h1>
+      <RealtimeMessages serverMessages={serverMessages} friend={data.friend} user_id={userData.user.id} />
+    </main>
   );
 }

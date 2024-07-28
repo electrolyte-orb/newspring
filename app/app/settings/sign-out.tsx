@@ -1,6 +1,5 @@
 "use client";
 import { createClient } from "@/lib/client";
-import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
 export default function SignOut() {
@@ -18,14 +17,11 @@ export default function SignOut() {
 
   return (
     <>
-      <Button
+      <button
         onClick={() => handleSignOut()}
-        variant="transparent"
-        color="red.6"
-        size="compact-sm"
       >
         Sign Out
-      </Button>
+      </button>
     </>
   );
 }
