@@ -14,9 +14,6 @@ export default async function DynamicApp({ params }: { params: { id: string } })
 
   const { data, error } = await supabase.from("contact").select("friend(*)").eq("friendship_id", params.id).single();
 
-  // TODO: REMOVE CONSOLE LOG
-  console.log(JSON.stringify(data), { error });
-
   if (error || data.friend?.id == null) {
     return <div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>;
   }
@@ -29,8 +26,6 @@ export default async function DynamicApp({ params }: { params: { id: string } })
   if (messageError) {
     return <div>ERROR: CANNOT FETCH MESSAGES</div>;
   }
-
-  console.log({ serverMessages, messageError });
 
   return (
     <main>

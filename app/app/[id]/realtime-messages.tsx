@@ -50,8 +50,6 @@ export default function RealtimeMessages({ serverMessages, friend, user_id }: Re
           table: "message",
         },
         (payload) => {
-          console.log(payload);
-
           switch (payload.eventType) {
             case "UPDATE":
               setMessages((oldMessages) => {
@@ -79,7 +77,6 @@ export default function RealtimeMessages({ serverMessages, friend, user_id }: Re
               });
               break;
             default:
-              console.log("SWITCH STATEMENT, DEFAULT", payload);
               break;
           }
         },
@@ -87,10 +84,9 @@ export default function RealtimeMessages({ serverMessages, friend, user_id }: Re
       .subscribe();
 
     return () => {
-      console.log("UNSUBSCRIBING");
       messageChannel.unsubscribe();
     };
-  }, [supabase.channel, setMessages]);
+  }, [supabase, friend.id, setMessages]);
 
   return (
     <>

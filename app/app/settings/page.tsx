@@ -13,11 +13,7 @@ export default async function Settings() {
   let username: string = "";
 
   if (user) {
-    const { data, error } = await supabase
-      .from("user")
-      .select("username")
-      .eq("id", user.id)
-      .single();
+    const { data, error } = await supabase.from("user").select("username").eq("id", user.id).single();
     if (!error) {
       username = data.username;
     }
@@ -26,6 +22,7 @@ export default async function Settings() {
   return (
     <main>
       <h1>Settings Page</h1>
+      {username}
       <SignOut />
     </main>
   );
