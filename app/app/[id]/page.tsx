@@ -12,9 +12,9 @@ export default async function DynamicApp({ params }: { params: { id: string } })
     return <div>USER ERROR</div>;
   }
 
-  const { data, error } = await supabase.from("contact").select("friend(*)").eq("friendship_id", params.id).single();
+  const { data, error } = await supabase.from("contact").select("*, friend(*)").eq("friendship_id", params.id).single();
 
-  if (error || data.friend?.id == null) {
+  if (error || data == null || data.friend == null) {
     return <div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>;
   }
 
@@ -30,7 +30,12 @@ export default async function DynamicApp({ params }: { params: { id: string } })
   return (
     <main>
       <h1>This is dynamic: {params.id}</h1>
-      <RealtimeMessages serverMessages={serverMessages} friend={data.friend} user_id={userData.user.id} />
+      <RealtimeMessages
+        serverMessages={serverMessages}
+        friend={data.friend}
+        user_id={userData.user.id}
+        contact_name={data.name ?? "Unknown"}
+      />
     </main>
   );
 }

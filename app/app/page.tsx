@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/server";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { AddContact } from "./AddContact";
 
 export const revalidate = 0;
 
@@ -14,11 +15,10 @@ export default async function App() {
     return <div>CANNOT LOAD CONTACTS, SOMETHING WENT WRONG</div>;
   }
 
-  console.log({ data });
-
   return (
     <div>
       <h1>App Console</h1>
+      <AddContact />
       <ul>
         {data.map((contact, i) => (
           <li key={i}>

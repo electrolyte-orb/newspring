@@ -8,9 +8,10 @@ interface RealtimeMessagesProps {
   serverMessages: Tables<"message">[];
   friend: Tables<"friend">;
   user_id: string;
+  contact_name: string;
 }
 
-export default function RealtimeMessages({ serverMessages, friend, user_id }: RealtimeMessagesProps) {
+export default function RealtimeMessages({ serverMessages, friend, user_id, contact_name }: RealtimeMessagesProps) {
   const [messages, setMessages] = useState(serverMessages);
   const [inputMessage, setInputMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -92,13 +93,21 @@ export default function RealtimeMessages({ serverMessages, friend, user_id }: Re
     <>
       <h2>HERE ARE MESSAGES</h2>
       {messages?.map((message, i) => (
-        <div key={i}>{message.content}</div>
+        <div key={i}>
+          <i>{message.owner_id === user_id ? "Me: " : `${contact_name}: `}</i>
+          {message.content}
+        </div>
       ))}
 
-      <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         <input type="text" minLength={1} onChange={handleInput} ref={inputRef} />
-        <button onClick={handleSubmit}>submit</button>
-      </div>
+        <input type="submit" />
+      </form>
     </>
   );
 }
