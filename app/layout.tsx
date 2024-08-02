@@ -4,23 +4,25 @@ import Navbar from "./Navbar";
 import React from "react";
 
 export const metadata: Metadata = {
-	title: "Codenamed newspring",
-	description: "Next.js app",
+  title: "Codenamed newspring",
+  description: "Next.js app",
 };
 
+export const preferredRegion = ["bom1"];
+
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body>
-				<JotaiProvider>
-					<Navbar />
-					{children}
-				</JotaiProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body>
+        <JotaiProvider>
+          <Navbar />
+          {children}
+        </JotaiProvider>
+      </body>
+    </html>
+  );
 }

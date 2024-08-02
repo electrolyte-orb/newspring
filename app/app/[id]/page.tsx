@@ -2,9 +2,12 @@ import { createClient } from "@/lib/server";
 import { cookies } from "next/headers";
 import RealtimeMessages from "./realtime-messages";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const runtime = 'edge';
 
-export default async function DynamicApp({ params }: { params: { id: string } }) {
+export default async function DynamicApp({
+  params,
+}: { params: { id: string } }) {
   const supabase = createClient(cookies());
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError) {
@@ -12,10 +15,16 @@ export default async function DynamicApp({ params }: { params: { id: string } })
     return <div>USER ERROR</div>;
   }
 
-  const { data, error } = await supabase.from("contact").select("*, friend(*)").eq("friendship_id", params.id).single();
+  const { data, error } = await supabase
+    .from("contact")
+    .select("*, friend(*)")
+    .eq("friendship_id", params.id)
+    .single();
 
   if (error || data == null || data.friend == null) {
-    return <div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>;
+    return (
+      <div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>
+    );
   }
 
   const { data: serverMessages, error: messageError } = await supabase

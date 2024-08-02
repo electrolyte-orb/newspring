@@ -3,7 +3,8 @@ import SignIn from "./sign-in";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 export default async function Login({
   searchParams,
@@ -20,7 +21,12 @@ export default async function Login({
 
   return (
     <main>
-      {redirectError && (redirectError === "LoggedOut" ? <div>Logged Out</div> : <div>Error Occurred</div>)}
+      {redirectError &&
+        (redirectError === "LoggedOut" ? (
+          <div>Logged Out</div>
+        ) : (
+          <div>Error Occurred</div>
+        ))}
       <SignIn />
     </main>
   );

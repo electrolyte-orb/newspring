@@ -43,7 +43,7 @@ export function createClient(request: NextRequest) {
           });
         },
       },
-    }
+    },
   );
   return { supabase, response };
 }

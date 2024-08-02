@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { AddContact } from "./AddContact";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 export default async function App() {
   const cookieStore = cookies();
@@ -22,7 +23,7 @@ export default async function App() {
       <ul>
         {data.map((contact, i) => (
           <li key={i}>
-            <Link href={`/app/${contact.friendship_id}`}>
+            <Link prefetch={false} href={`/app/${contact.friendship_id}`}>
               {contact.name} - <b>{contact.username}</b>
             </Link>
           </li>
