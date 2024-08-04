@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["geist"],
   images: {
     remotePatterns: [
       {
@@ -12,7 +13,6 @@ const nextConfig = {
   },
   experimental: {
     swcPlugins: [["@swc-jotai/react-refresh", {}]],
-    optimizePackageImports: ["@heroicons/react"],
   },
 };
 

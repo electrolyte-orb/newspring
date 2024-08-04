@@ -41,14 +41,14 @@ export type Database = {
           {
             foreignKeyName: "fk_contact_friend"
             columns: ["friendship_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "contact_view"
             referencedColumns: ["friendship_id"]
           },
           {
             foreignKeyName: "fk_contact_friend"
             columns: ["friendship_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "friend"
             referencedColumns: ["id"]
           },
@@ -255,7 +255,21 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      create_contact_friendship: {
+        Args: {
+          p_friend_user_id: string
+          p_name: string
+        }
+        Returns: {
+          friendship_id: string
+          id: string
+          is_blocked: boolean | null
+          is_in_veiwport: boolean | null
+          name: string | null
+          owner_id: string
+          unseen_messages: number | null
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -6,10 +6,17 @@ import { useAtom } from "jotai";
 import { userAtom } from "./store";
 import { createClient } from "@/lib/client";
 import type { User } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
 
 interface NavbarClientProps {
   userFromServer: User | null;
 }
+
+const links = [
+  { href: "/", name: "Home" },
+  { href: "/app/settings", name: "Settings" },
+  { href: "/app", name: "App" },
+];
 
 export default function Navbar() {
   const [user, setUser] = useAtom(userAtom);
@@ -30,17 +37,14 @@ export default function Navbar() {
 
   return (
     <>
-      <div style={{ display: "flex", gap: 10 }}>
-        <Link href="/">Home</Link>
-        {user ? (
-          <>
-            <Link href="/app/settings">Settings</Link>
-            <Link href="/app">App</Link>
-            <i>{user.email}</i>
-          </>
-        ) : (
-          <Link href="/login">Login</Link>
-        )}
+      <div className="bg-background p-4 sticky top-0 flex gap-2">
+        {links.map((link, i) => (
+          <Link href={link.href} key={i}>
+            <Button variant="link" className="px-2 py-1">
+              {link.name}
+            </Button>
+          </Link>
+        ))}
       </div>
     </>
   );

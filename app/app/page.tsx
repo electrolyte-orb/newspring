@@ -7,28 +7,28 @@ export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
 export default async function App() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const { data, error } = await supabase.from("contact_view").select();
+	const cookieStore = cookies();
+	const supabase = createClient(cookieStore);
+	const { data, error } = await supabase.from("contact_view").select();
 
-  if (error != null) {
-    console.error(error);
-    return <div>CANNOT LOAD CONTACTS, SOMETHING WENT WRONG</div>;
-  }
+	if (error != null) {
+		console.error(error);
+		return <div>CANNOT LOAD CONTACTS, SOMETHING WENT WRONG</div>;
+	}
 
-  return (
-    <div>
-      <h1>App Console</h1>
-      <AddContact />
-      <ul>
-        {data.map((contact, i) => (
-          <li key={i}>
-            <Link prefetch={false} href={`/app/${contact.friendship_id}`}>
-              {contact.name} - <b>{contact.username}</b>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+	return (
+		<div>
+			<h1>App Console</h1>
+			<AddContact />
+			<ul>
+				{data.map((contact, i) => (
+					<li key={i}>
+						<Link prefetch={false} href={`/app/${contact.friendship_id}`}>
+							{contact.name} - <b>{contact.username}</b>
+						</Link>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
 }

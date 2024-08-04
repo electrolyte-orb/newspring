@@ -41,8 +41,9 @@ export default function RealtimeMessages({ serverMessages, friend, user_id, cont
   }
 
   useEffect(() => {
-    const messageChannel = supabase
-      .channel(friend.id)
+    const messageChannel = supabase.channel(friend.id)
+
+    messageChannel
       .on(
         "postgres_changes",
         {
