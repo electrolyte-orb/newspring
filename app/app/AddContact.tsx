@@ -38,48 +38,53 @@ export function AddContact() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle>Add contact</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            Add your friend in your contacts list. You need their  <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+              uuid
+            </code>. Beware that you adding your friend to your contact list does not make changes to your friend contact list.
+
           </SheetDescription>
         </SheetHeader>
         <form
+          className="grid gap-4 py-4"
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
         >
-          <input
-            placeholder="UUID"
-            type="text"
-            onChange={(e) => {
-              setUuidField(e.target.value);
-            }}
-          />
-          <input
-            placeholder="Name"
-            type="text"
-            onChange={(e) => {
-              setNameField(e.target.value);
-            }}
-          />
-          <input type="submit" />
-          {status}
-        </form>
-        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="uuid" className="text-right">
+              UUID
+            </Label>
+            <Input
+              placeholder="2ebc3afa-2ce4-49e2-8238-674bb2d87ef9"
+              type="text"
+              onChange={(e) => {
+                setUuidField(e.target.value);
+              }}
+              id="uuid"
+              className="col-span-3"
+            />
+          </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
+            <Input
+              id="name"
+              className="col-span-3"
+              placeholder="John Doe"
+              type="text"
+              onChange={(e) => {
+                setNameField(e.target.value);
+              }}
+            />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
+          <Button asChild>
+            <input type="submit" value="Add Contact" />
+          </Button>
+        </form>
       </SheetContent>
     </Sheet>
   );
