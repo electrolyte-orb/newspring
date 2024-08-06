@@ -39,6 +39,7 @@ export default function Navbar() {
     <>
       <div className="bg-background p-4 sticky top-0 flex gap-2">
         {links.map((link, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <Link href={link.href} key={i}>
             <Button variant="link" className="px-2 py-1">
               {link.name}

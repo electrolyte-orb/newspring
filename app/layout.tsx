@@ -1,7 +1,6 @@
 import { Provider as JotaiProvider } from "jotai";
 import type { Metadata } from "next";
 import Navbar from "./Navbar";
-import React from "react";
 import { GeistSans as FontSans } from "geist/font/sans";
 import { cn } from "@/lib/utils";
 import "./global.css";
