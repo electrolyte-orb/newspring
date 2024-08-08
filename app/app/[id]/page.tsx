@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/server";
 import { cookies } from "next/headers";
-import RealtimeMessages from "./realtime-messages";
+import RealtimeMessages from "@/components/RealtimeMessages";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -19,11 +19,12 @@ export default async function DynamicApp({
 	}
 
 	const { data, error } = await supabase
-		.from("contact")
-		.select("*, friend(*)")
+		.from("contact_view")
+		.select()
+		.eq("owner_id", userData.user.id)
 		.eq("friendship_id", params.id)
 		.single();
-	if (error || data == null || data.friend == null) {
+	if (error || data == null || data.friendship_id == null) {
 		return (
 			<div>ERROR: SOMETHING WENT WRONG, YOU NO LONGER SEEMS TO BE FRIENDS</div>
 		);
@@ -31,21 +32,20 @@ export default async function DynamicApp({
 	const { data: serverMessages, error: messageError } = await supabase
 		.from("message")
 		.select()
-		.eq("friendship_id", data.friend.id);
+		.eq("friendship_id", data.friendship_id);
 
 	if (messageError) {
 		return <div>ERROR: CANNOT FETCH MESSAGES</div>;
 	}
 
 	return (
-		<main>
-			<h1>This is dynamic: {params.id}</h1>
+		<>
 			<RealtimeMessages
 				serverMessages={serverMessages}
-				friend={data.friend}
 				user_id={userData.user.id}
-				contact_name={data.name ?? "Unknown"}
+				user_picture={userData.user.user_metadata.picture}
+				contact={data ?? "Unknown"}
 			/>
-		</main>
+		</>
 	);
 }

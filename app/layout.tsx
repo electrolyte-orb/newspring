@@ -7,37 +7,37 @@ import "./global.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Codenamed newspring",
-  description: "Next.js app",
+	title: "Codenamed newspring",
+	description: "Next.js app",
 };
 
 export const preferredRegion = ["bom1"];
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          FontSans.variable,
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <JotaiProvider>
-            <Navbar />
-            {children}
-          </JotaiProvider>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={cn(
+					"min-h-screen bg-background font-sans antialiased",
+					FontSans.variable,
+				)}
+			>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<JotaiProvider>
+						<Navbar />
+						<main className="container mx-auto">{children}</main>
+					</JotaiProvider>
+				</ThemeProvider>
+			</body>
+		</html>
+	);
 }

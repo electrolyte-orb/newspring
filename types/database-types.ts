@@ -257,7 +257,7 @@ export type Database = {
     Functions: {
       create_contact_friendship: {
         Args: {
-          p_friend_user_id: string
+          p_friend_username: string
           p_name: string
         }
         Returns: {
