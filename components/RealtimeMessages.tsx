@@ -127,7 +127,7 @@ export default function RealtimeMessages({
 		return () => {
 			messageChannel.unsubscribe();
 		};
-	}, [supabase, contact.friendship_id, router.refresh]);
+	}, [supabase, contact.friendship_id, router]);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
