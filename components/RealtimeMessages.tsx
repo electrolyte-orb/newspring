@@ -78,6 +78,7 @@ export default function RealtimeMessages({
 					event: "*",
 					schema: "public",
 					table: "message",
+					filter: `friendship_id=eq.${contact.friendship_id}`,
 				},
 				(payload) => {
 					console.log("Payload recieved");
@@ -118,7 +119,7 @@ export default function RealtimeMessages({
 			.subscribe((status) => {
 				if (status === "SUBSCRIBED") {
 					setIsConnected(true);
-				} else {
+				} else if (!(status === "CLOSED")) {
 					router.refresh();
 				}
 			}, 5000);
