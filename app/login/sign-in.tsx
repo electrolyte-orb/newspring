@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/client";
 
 const PROD_URL = "https://newspring-app.vercel.app";
-const DEV_URL = "http://localhost:3000";
 
 export default function SignIn() {
 	const supabase = createClient();
@@ -13,7 +12,7 @@ export default function SignIn() {
 			await supabase.auth.signInWithOAuth({
 				provider,
 				options: {
-					redirectTo: `${process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL}/auth/callback`,
+					redirectTo: `${process.env.NODE_ENV === "production" ? PROD_URL : document.location.origin}/auth/callback`,
 				},
 			});
 		} catch (e) {

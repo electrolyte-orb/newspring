@@ -1,6 +1,5 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/middleware";
-import { ServerRuntime } from "next";
 
 export const config = {
 	matcher: "/app/:path*",

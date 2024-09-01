@@ -7,8 +7,8 @@ import type { Tables } from "@/types/database-types";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { ImageDataURI } from "@/lib/image-data-uri";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface RealtimeMessagesProps {
 	serverMessages: Tables<"message">[];
@@ -25,8 +25,11 @@ export default function RealtimeMessages({
 }: RealtimeMessagesProps) {
 	const [messages, setMessages] = useState(serverMessages);
 	const [inputMessage, setInputMessage] = useState("");
+	const [isConnected, setIsConnected] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const bottomRef = useRef<HTMLDivElement>(null);
 	const supabase = createClient();
+	const router = useRouter();
 
 	function handleInput() {
 		if (inputRef?.current) {
@@ -112,17 +115,23 @@ export default function RealtimeMessages({
 					}
 				},
 			)
-			.subscribe();
+			.subscribe((status) => {
+				if (status === "SUBSCRIBED") {
+					setIsConnected(true);
+				} else {
+					router.refresh();
+				}
+			}, 5000);
 
 		return () => {
 			messageChannel.unsubscribe();
 		};
-	}, [supabase, contact.friendship_id]);
+	}, [supabase, contact.friendship_id, router.refresh]);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		// scroll last message into view
-		window.scrollTo(0, document.body.scrollHeight + 9999);
+		if (bottomRef.current) bottomRef.current.scrollIntoView(false);
 	}, [messages]);
 
 	return (
@@ -147,13 +156,16 @@ export default function RealtimeMessages({
 					</Avatar>
 					<div className="flex-col">
 						<div className="text-muted-foreground text-sm">
-							{message.owner_id === user_id ? "Me" : contact.username}
+							{message.owner_id === user_id ? "Me" : contact.username}{" "}
+							<span className="text-neutral-600">
+								{new Date(message.created_at).toLocaleTimeString("en-IN")}
+							</span>
 						</div>
 						<div>{message.content}</div>
 					</div>
 				</div>
 			))}
-			<div className="h-16 w-1" />
+			<div className="h-16 w-1" ref={bottomRef} />
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -167,10 +179,19 @@ export default function RealtimeMessages({
 					value={inputMessage}
 					onChange={handleInput}
 					ref={inputRef}
-					placeholder="Type your message here..."
+					placeholder={
+						isConnected
+							? "Type your message here..."
+							: "Connecting... (Please Wait)"
+					}
 					className="border-0 focus-visible:ring-0 focus-visible:ring-offset focus-visible:ring-transparent px-0 py-0 h-8"
 				/>
-				<Button className="h-6 px-2" type="submit" variant="ghost">
+				<Button
+					disabled={!isConnected}
+					className="h-6 px-2"
+					type="submit"
+					variant="ghost"
+				>
 					Send
 					<ChevronRight className="w-4 h-4 ml" />
 				</Button>

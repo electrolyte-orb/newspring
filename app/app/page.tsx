@@ -28,8 +28,6 @@ export default async function App() {
 		return <div>CANNOT LOAD CONTACTS, SOMETHING WENT WRONG</div>;
 	}
 
-	console.log({ data });
-
 	return (
 		<>
 			<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
@@ -67,8 +65,7 @@ export default async function App() {
 				))}
 			</ul>
 			<p className="text-sm text-muted-foreground mt-4">
-				Cube provided out of Cube set by Icons8. UI icons are provided by
-				Lucide.
+				UI icons are provided by Lucide.
 			</p>
 		</>
 	);
